@@ -33,21 +33,45 @@ class Town:
         ) for resource, amount in self.resources.items())
 
 
-    def buy(self, resource: str, amount: int):
-        pass
+    def buy_from_town(self, player: Player, resource: str, amount: int) -> None:
+        if player.gold < self[resource]['price'] * amount:
+            print('You do not have enough gold.')
+            return
+
+        if self.resources[resource] < amount:
+            print(f'{self.name} does not have enough of that resource.')
+            return
+
+        player.resources[resource] += amount
+        player.gold -= self[resource]['price'] * amount
+        self.resources[resource] -= amount
+        self.gold += self[resource]['price'] * amount
 
 
-    def sell(self, resource: str, amount: int):
-        pass
+    def sell_to_town(self, player: Player, resource: str, amount: int) -> None:
+        if self.gold < self[resource]['price'] * amount:
+            print(f'{self.name} does not have enough gold.')
+            return
+
+        if player.resources[resource] < amount:
+            print('You do not have enough of that resource')
+            return 
+
+        player.resources[resource] -= amount
+        player.gold += self[resource]['price'] * amount
+        self.resources[resource] += amount
+        self.gold -= self[resource]['price'] * amount
 
 
 class Player:
     def __init__(self, gold: int = 10, wood: int = 12, diamonds: int = 0, copper: int = 5, lead: int = 8):
         self.gold: int = gold
-        self.wood: int = wood
-        self.diamonds: int = diamonds
-        self.copper: int = copper
-        self.lead: int = lead
+        self.resources: dict[str, int] = {
+            'wood': wood,
+            'diamonds': diamonds,
+            'copper': copper,
+            'lead': lead,
+        }
 
 
 class Save:
