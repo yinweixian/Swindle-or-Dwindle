@@ -42,8 +42,8 @@ class Town:
             print(f'{self.name} does not have enough of that resource.')
             return
 
-        player.resources[resource] += amount
-        player.gold -= self[resource]['price'] * amount
+        player.increase_resources(resource, amount)
+        player.decrease_gold((self.resources[resource] * amount))
         self.resources[resource] -= amount
         self.gold += self[resource]['price'] * amount
 
@@ -57,8 +57,8 @@ class Town:
             print('You do not have enough of that resource')
             return 
 
-        player.resources[resource] -= amount
-        player.gold += self[resource]['price'] * amount
+        player.decrease_resource(resource, amount)
+        player.increase_gold((self[resource] * amount))
         self.resources[resource] += amount
         self.gold -= self[resource]['price'] * amount
 
@@ -96,10 +96,6 @@ class Player:
             gold -= quantity
         else:
             print("you can't lose more gold than you have")
-
-
-
-
 
 
 class Save:
