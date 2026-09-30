@@ -1,6 +1,7 @@
 import json
 import math
 import random
+from encryption_algorithm import encrypt, decrypt
 
 class Town:
     def __init__(self):
@@ -80,10 +81,16 @@ class Save:
 
 
     def encrypt_data(self, game_data):
+        keys = ['gold', 'wood', 'diamonds', 'copper', 'lead']
+        for key in keys:
+            game_data[key] = encrypt(game_data[key])
         return game_data
 
 
     def decrypt_data(self, game_data):
+        keys = ['gold', 'wood', 'diamonds', 'copper', 'lead']
+        for key in keys:
+            game_data[key] = decrypt(game_data[key])
         return game_data
         
 
