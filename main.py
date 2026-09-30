@@ -73,6 +73,34 @@ class Player:
             'lead': lead,
         }
 
+    def get_inventory(self):
+        inventory  = [self.gold, self.resources['wood'], self.resources['diamonds'], self.resources['copper'], self.resources['lead']]
+        return inventory
+
+
+    def increase_resource(self, resource : str, quantity : int):
+        self.resources[resource] += quantity
+
+    def reduce_resource(self, resource : str, quantity : int):
+        if self.resources[resource] >= quantity:
+            self.resources[resource] -= quantity
+        else:
+            print(f"you can't lose more {resource} than you have")
+
+
+    def increase_gold(self, quantity : int):
+        self.gold += quantity
+
+    def reduce_gold(self, quantity : int):
+        if self.gold >= quantity:
+            gold -= quantity
+        else:
+            print("you can't lose more gold than you have")
+
+
+
+
+
 
 class Save:
     def __init__(self, file_name = 'game.save'):
