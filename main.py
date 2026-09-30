@@ -138,10 +138,10 @@ def main():
 
     game_data = {
         'gold': player.gold,
-        'wood': player.wood,
-        'diamonds': player.diamonds,
-        'copper': player.copper,
-        'lead': player.lead,
+        'wood': player.resources['wood'],
+        'diamonds': player.resources['diamonds'],
+        'copper': player.resources['copper'],
+        'lead': player.resources['lead'],
     }
 
     save.write(game_data)
