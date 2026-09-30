@@ -54,6 +54,24 @@ class Player:
         inventory  = [self.gold, self.wood, self.diamonds, self.copper, self.lead]
         return inventory
 
+    def change_resource(self, resource, quantity):
+        match resource:
+            case 1:
+                if self.gold >= quantity:
+                    self.gold += quantity
+            case 2:
+                if self.wood >= quantity:
+                    self.wood += quantity
+            case 3:
+                if self.diamonds >= quantity:
+                    self.diamonds += quantity
+            case 4:
+                if self.copper >= quantity:
+                    self.copper += quantity
+            case 5:
+                if self.lead >= quantity:
+                    self.lead += quantity
+
 class Save:
     def __init__(self, file_name = 'game.save'):
         self.file_name = file_name
@@ -109,12 +127,14 @@ def main():
             match choice:
                 case '1':
                     print('What resource would you like to buy?')
+
                 case '2':
                     print('What resource would you like to sell?')
                 case '3':
                     break
                 case 'q':
                     break
+                
 
     game_data = {
         'gold': player.gold,
