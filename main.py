@@ -50,6 +50,10 @@ class Player:
         self.lead: int = lead
 
 
+    def get_inventory(self):
+        inventory  = [self.gold, self.wood, self.diamonds, self.copper, self.lead]
+        return inventory
+
 class Save:
     def __init__(self, file_name = 'game.save'):
         self.file_name = file_name
