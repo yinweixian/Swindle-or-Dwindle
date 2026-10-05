@@ -104,6 +104,36 @@ class Save:
 
 
 def main():
+
+    def buy_sell(type, town, player):
+        print(f'What resource would you like to {type}?\n\t1. wood\n\t2. diamonds\n\t3. copper\n\t4. lead')
+        resource_index = input()
+        resource = ''
+        match resource_index:
+            case '1':
+                resource = 'wood'
+            case '2':
+                resource = 'diamonds'
+            case '3':
+                resource = 'copper'
+            case '4':
+                resource = 'lead'
+        if resource != '':
+            print(f'How many units would you like to {type}?')
+            amount = ''
+            try:
+                amount = int(input())
+                if amount < 0:
+                    raise ValueError
+            except ValueError:
+                print("Invalid argument. Transaction incomplete.")
+                amount = ''
+            if amount != '':
+                if type == 'buy':
+                    town.buy_from_town(player, resource, amount)
+                elif type == 'sell':
+                    town.sell_to_town(player, resource, amount)
+
     save: Save = Save()
     try:
         game_data = save.read()
@@ -128,13 +158,16 @@ def main():
             choice = input()
             match choice:
                 case '1':
-                    print('What resource would you like to buy?')
+                    buy_sell('buy', town, player)
                 case '2':
-                    print('What resource would you like to sell?')
+                    buy_sell('sell', town, player)
                 case '3':
+                    print(f'Leaving {town.name}.')
                     break
                 case 'q':
                     break
+
+    
 
     game_data = {
         'gold': player.gold,
