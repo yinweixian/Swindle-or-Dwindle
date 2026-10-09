@@ -104,6 +104,41 @@ class Save:
 
 
 def main():
+    def show_player_resources(player):
+        print(f'Gold: {player.gold}')
+        for resource, amount in player.resources.items(): 
+            print(f'{resource.capitalize()}: {amount}')
+
+    def buy_sell(type, town, player):
+        print(f'What resource would you like to {type}?\n\t1. wood\n\t2. diamonds\n\t3. copper\n\t4. lead')
+        resource_index = input()
+        resource = ''
+        match resource_index:
+            case '1':
+                resource = 'wood'
+            case '2':
+                resource = 'diamonds'
+            case '3':
+                resource = 'copper'
+            case '4':
+                resource = 'lead'
+        if resource != '':
+            print(f'How many units would you like to {type}?')
+            amount = ''
+            try:
+                amount = int(input())
+                if amount < 0:
+                    raise ValueError
+            except ValueError:
+                print("Invalid argument. Transaction incomplete.")
+                amount = ''
+            if amount != '':
+                if type == 'buy':
+                    town.buy_from_town(player, resource, amount)
+                elif type == 'sell':
+                    town.sell_to_town(player, resource, amount)
+                show_player_resources(player)
+
     save: Save = Save()
     try:
         game_data = save.read()
@@ -119,6 +154,8 @@ def main():
 
         print(f'You are in {town}.')
 
+        show_player_resources(player) 
+
         for resource, amount, price in town:
             print(f'\t You can buy up to {amount} units of {resource} @ {price}g/unit.')
 
@@ -128,20 +165,23 @@ def main():
             choice = input()
             match choice:
                 case '1':
-                    print('What resource would you like to buy?')
+                    buy_sell('buy', town, player)
                 case '2':
-                    print('What resource would you like to sell?')
+                    buy_sell('sell', town, player)
                 case '3':
+                    print(f'Leaving {town.name}.')
                     break
                 case 'q':
                     break
 
+    
+
     game_data = {
         'gold': player.gold,
-        'wood': player.wood,
-        'diamonds': player.diamonds,
-        'copper': player.copper,
-        'lead': player.lead,
+        'wood': player.resources['wood'],
+        'diamonds': player.resources['diamonds'],
+        'copper': player.resources['copper'],
+        'lead': player.resources['lead'],
     }
 
     save.write(game_data)
