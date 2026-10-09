@@ -104,6 +104,10 @@ class Save:
 
 
 def main():
+    def show_player_resources(player):
+        print(f'Gold: {player.gold}')
+        for resource, amount in player.resources.items(): 
+            print(f'{resource.capitalize()}: {amount}')
 
     def buy_sell(type, town, player):
         print(f'What resource would you like to {type}?\n\t1. wood\n\t2. diamonds\n\t3. copper\n\t4. lead')
@@ -133,6 +137,7 @@ def main():
                     town.buy_from_town(player, resource, amount)
                 elif type == 'sell':
                     town.sell_to_town(player, resource, amount)
+                show_player_resources(player)
 
     save: Save = Save()
     try:
@@ -148,6 +153,8 @@ def main():
         town: Town = Town()
 
         print(f'You are in {town}.')
+
+        show_player_resources(player) 
 
         for resource, amount, price in town:
             print(f'\t You can buy up to {amount} units of {resource} @ {price}g/unit.')
