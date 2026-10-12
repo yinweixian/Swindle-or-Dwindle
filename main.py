@@ -2,6 +2,18 @@ import json
 import math
 import random
 
+
+
+class Player:
+    def __init__(self, gold: int = 10, wood: int = 12, diamonds: int = 0, copper: int = 5, lead: int = 8):
+        self.gold: int = gold
+        self.resources: dict[str, int] = {
+            'wood': wood,
+            'diamonds': diamonds,
+            'copper': copper,
+            'lead': lead,
+        }
+
 class Town:
     def __init__(self):
         self.name: str = random.choice(('Orem', 'Provo', 'American Fork', 'Pleasant Grove', 'Lehi','Salt Lake'))
@@ -18,8 +30,8 @@ class Town:
 
     def __getitem__(self, key: str):
         return {
-            'amount': self.resource[key],
-            'price': math.ceil((1 / (self.resource[key] + 1)) * self.gold)
+            'amount': self.resources[key],
+            'price': math.ceil((1 / (self.resources[key] + 1)) * self.gold)
         }
 
     def __str__(self):
@@ -61,17 +73,6 @@ class Town:
         player.gold += self[resource]['price'] * amount
         self.resources[resource] += amount
         self.gold -= self[resource]['price'] * amount
-
-
-class Player:
-    def __init__(self, gold: int = 10, wood: int = 12, diamonds: int = 0, copper: int = 5, lead: int = 8):
-        self.gold: int = gold
-        self.resources: dict[str, int] = {
-            'wood': wood,
-            'diamonds': diamonds,
-            'copper': copper,
-            'lead': lead,
-        }
 
 
 class Save:
