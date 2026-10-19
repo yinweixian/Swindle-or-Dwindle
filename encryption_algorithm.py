@@ -1,3 +1,5 @@
+
+
 def encrypt(value):
     value_as_string = str(value)
     while len(value_as_string) < 5:
@@ -69,7 +71,10 @@ def decrypt(encrypted_binary_string):
             break
     return decrypted_value_without_leading_zeros
 
-encrypted_value = encrypt(7)
-#print_for_easy_read(encrypted_value)
+encrypted_value = encrypt(0)
+print("Encryption")
+print_for_easy_read(encrypted_value)
 
-#print(decrypt(encrypted_value))
+print("Decryption")
+print(decrypt(encrypted_value))
+print(type(decrypt(encrypted_value)))

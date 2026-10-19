@@ -6,7 +6,7 @@ from encryption_algorithm import encrypt, decrypt
 
 
 class Player:
-    def __init__(self, gold: int = 10, wood: int = 12, diamonds: int = 0, copper: int = 5, lead: int = 8):
+    def __init__(self, gold: int = 100, wood: int = 12, diamonds: int = 10, copper: int = 5, lead: int = 8):
         self.gold: int = gold
         self.resources: dict[str, int] = {
             'wood': wood,
@@ -150,7 +150,13 @@ def main():
     save: Save = Save()
     try:
         game_data = save.read()
-        player = Player(game_data['gold'], game_data['wood'], game_data['diamonds'], game_data['copper'], game_data['lead'])
+        player = Player(int(game_data['gold']), int(game_data['wood']), int(game_data['diamonds']), int(game_data['copper']), int(game_data['lead']))
+        '''
+        if type(game_data['gold']) == str or type(game_data['wood']) == str or type(game_data['diamonds']) == str or type(game_data['copper']) == str or type(game_data['lead']) == str:
+            player = Player()
+        else:
+            player = Player(game_data['gold'], game_data['wood'], game_data['diamonds'], game_data['copper'], game_data['lead'])
+        '''
     except:
         player = Player()
 
