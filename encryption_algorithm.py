@@ -70,6 +70,6 @@ def decrypt(encrypted_binary_string):
     return decrypted_value_without_leading_zeros
 
 encrypted_value = encrypt(7)
-print_for_easy_read(encrypted_value)
+#print_for_easy_read(encrypted_value)
 
-print(decrypt(encrypted_value))
+#print(decrypt(encrypted_value))
