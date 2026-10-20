@@ -66,7 +66,7 @@ class Town:
             print(f'{self.name} does not have enough gold.')
             return
 
-        if player.resources[resource] < amount:
+        if int(player.resources[resource]) < amount:
             print('You do not have enough of that resource')
             return 
 
