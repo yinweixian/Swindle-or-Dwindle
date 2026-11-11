@@ -1,7 +1,8 @@
 import json
 import math
 import random
-from encryption_algorithm import encrypt, decrypt
+# from encryption_algorithm import encrypt, decrypt
+from cryptography.fernet import Fernet
 
 
 
@@ -77,39 +78,28 @@ class Town:
 
 
 class Save:
-    def __init__(self, file_name = 'game.save'):
+    def __init__(self, encryption_key, file_name = 'game.save'):
         self.file_name = file_name
+        self.encryption_key = encryption_key
+        self.f = Fernet(self.encryption_key)
 
-
-    def encrypt_data(self, game_data):
-        keys = ['gold', 'wood', 'diamonds', 'copper', 'lead']
-        for key in keys:
-            game_data[key] = encrypt(game_data[key])
-        return game_data
-
-
-    def decrypt_data(self, game_data):
-        keys = ['gold', 'wood', 'diamonds', 'copper', 'lead']
-        for key in keys:
-            game_data[key] = decrypt(game_data[key])
-        return game_data
+    def decrypt_data(self, encrypted_game_data):
+        return self.f.decrypt(encrypted_game_data)
         
 
     def write(self, game_data):
-        save_string: str = json.dumps(self.encrypt_data(game_data))
+        save_string: str = json.dumps(game_data)
 
         with open(self.file_name, 'w') as save_file:
-            save_file.write(save_string)
+            save_file.write(str(self.f.encrypt(bytes(save_string, 'utf-8'))))
 
 
     def read(self):
         with open(self.file_name, 'r') as save_file:
-            save_string = save_file.read()
+            save_string = save_file.read().strip()
 
-        game_data = self.decrypt_data(json.loads(save_string))
-
-        return game_data
-
+        game_data = self.f.decrypt(bytes(save_string, 'utf-8'))
+        return json.loads(game_data)
 
 def main():
     def show_player_resources(player):
@@ -147,7 +137,7 @@ def main():
                     town.sell_to_town(player, resource, amount)
                 show_player_resources(player)
 
-    save: Save = Save()
+    save: Save = Save(b'C_uQ4zrQgm2m_Jc1Ru87A3NQGnaMgfgWZO1scHnlUAY=')
     try:
         game_data = save.read()
         player = Player(game_data['gold'], game_data['wood'], game_data['diamonds'], game_data['copper'], game_data['lead'])
@@ -193,8 +183,6 @@ def main():
     }
 
     save.write(game_data)
-
-    print(json.dumps(save.read()))
 
 if __name__ == '__main__':
     import sys
